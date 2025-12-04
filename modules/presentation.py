@@ -16,8 +16,6 @@ from matplotlib import rcParams
 rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans']
 rcParams['axes.unicode_minus'] = False
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-
 # Set random seeds for reproducibility
 torch.manual_seed(42)
 np.random.seed(42)
@@ -184,12 +182,12 @@ def visualize_test_results(all_images, true_labels, point_predictions, predictio
         
         # Title shows true label and point prediction
         ax.set_title(f'True: {true_label}\nPoint: {point_pred}', 
-                    color=point_color, fontsize=10, fontweight='bold')
+                    color=point_color, fontsize=10)
         
         # Add prediction set information as text
         set_text = f'Set: {sorted(pred_set)}'
         ax.text(0.5, -0.15, set_text, transform=ax.transAxes, ha='center', 
-               fontsize=8, color=set_color, fontweight='bold')
+               fontsize=8, color=set_color)
         
         # Add probability information
         max_prob = np.max(probs)
