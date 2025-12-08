@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  7 DEC 2025 20:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  8 DEC 2025 21:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -245,101 +245,110 @@ Package: amsthm 2020/05/29 v2.20.6
 \thm@postskip=\skip56
 \thm@headsep=\skip57
 \dth@everypar=\toks28
+) (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip58
+\bibsep=\skip59
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count312
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 35.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 36.
  (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count312
+\l__color_backend_stack_int=\count313
 ) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
  (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count313
+\scratchcounter=\count314
 \scratchdimen=\dimen167
 \scratchbox=\box57
-\nofMPsegments=\count314
-\nofMParguments=\count315
+\nofMPsegments=\count315
+\nofMParguments=\count316
 \everyMPshowfont=\toks29
-\MPscratchCnt=\count316
+\MPscratchCnt=\count317
 \MPscratchDim=\dimen168
-\MPnumerator=\count317
-\makeMPintoPDFobject=\count318
+\MPnumerator=\count318
+\makeMPintoPDFobject=\count319
 \everyMPtoPDFconversion=\toks30
 )
-Package hyperref Info: Link coloring OFF on input line 35.
+Package hyperref Info: Link coloring OFF on input line 36.
  (./report.out) (./report.out)
 \@outlinefile=\write3
 \openout3 = `report.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 39.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
  (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 39.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
  (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{/import/home4/zxiongal/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 119.
+{/import/home4/zxiongal/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}] [2] [3] [4]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 221.
  (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [2] [3]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 205.
+)
+Underfull \vbox (badness 1158) has occurred while \output is active []
+
+ [5] [6]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 307.
  (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 253--255
+Underfull \hbox (badness 10000) in paragraph at lines 355--357
 []\OT1/ptm/m/n/10 Install the Mi-crosoft Save as PDF Of-fice 2007 Add-in from []$\OT1/pcr/m/n/10 http :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 253--255
+Underfull \hbox (badness 10000) in paragraph at lines 355--357
 \OT1/pcr/m/n/10 / / www . microsoft . com / downloads / details . aspx ? displaylang =
  []
 
-[4] [5] (./report.aux)
+[7] (./report.bbl [8]) [9] (./report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 4FFE73777D59B4948AC2C2F0CDA0B18C;2029.
+(rerunfilecheck)             Checksum: CA0D885FC0A126750A2B8F91DB7E157D;2621.
  ) 
 Here is how much of TeX's memory you used:
- 10160 strings out of 467538
- 154122 string characters out of 5413300
- 580214 words of memory out of 5000000
- 38908 multiletter control sequences out of 15000+600000
- 654481 words of font info for 90 fonts, out of 8000000 for 9000
+ 10623 strings out of 467538
+ 161138 string characters out of 5413300
+ 588169 words of memory out of 5000000
+ 39315 multiletter control sequences out of 15000+600000
+ 652756 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,90p,2021b,572s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (5 pages, 158267 bytes).
+ 75i,9n,90p,1104b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (9 pages, 201947 bytes).
 PDF statistics:
- 175 PDF objects out of 1000 (max. 8388607)
- 140 compressed objects within 2 object streams
- 26 named destinations out of 1000 (max. 500000)
- 105 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 319 PDF objects out of 1000 (max. 8388607)
+ 277 compressed objects within 3 object streams
+ 76 named destinations out of 1000 (max. 500000)
+ 129 words of extra memory for PDF output out of 10000 (max. 10000000)
 

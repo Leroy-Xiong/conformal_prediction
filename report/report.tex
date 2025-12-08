@@ -6,6 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{natbib}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
@@ -47,9 +48,7 @@ paragraph.
 
 \section{Introduction}
 
-In scientific, engineering, and everyday decision-making, obtaining a prediction is insufficient without also understanding its reliability through effective uncertainty quantification (UQ). Whether in autonomous driving, medical diagnosis, or financial risk assessment, relying solely on point estimates poses significant risks, as models are always imperfect and the world exhibits inherent noise. This challenge is formalized in classical decision theory, where optimal decisions require not only an expected outcome but a complete characterization of uncertainty.
-
-Formally, consider a decision problem where we observe data $x \in \mathcal{X}$ and must choose an action $a \in \mathcal{A}$. The consequence of this action depends on an unknown state $y \in \mathcal{Y}$, and is quantified by a loss function $L: \mathcal{A} \times \mathcal{Y} \to \mathbb{R}$. In the Bayesian decision theory, the optimal decision minimizes the \emph{posterior expected loss}:
+In scientific, engineering, and everyday decision-making, obtaining a prediction is insufficient without also understanding its reliability through effective uncertainty quantification (UQ). Whether in autonomous driving, medical diagnosis, or financial risk assessment, relying solely on point estimates poses significant risks, as models are always imperfect and the world exhibits inherent noise. This challenge is formalized in classical decision theory, where optimal decisions require not only an expected outcome but a complete characterization of uncertainty. Formally, consider a decision problem where we observe data $x \in \mathcal{X}$ and must choose an action $a \in \mathcal{A}$. The consequence of this action depends on an unknown state $y \in \mathcal{Y}$, and is quantified by a loss function $L: \mathcal{A} \times \mathcal{Y} \to \mathbb{R}$. In the Bayesian decision theory \citep{berger1985statistical}, the optimal decision minimizes the \emph{posterior expected loss}:
 \begin{equation}
     a^*(x) = \arg\min_{a \in \mathcal{A}} \mathbb{E}_{y \sim p(y|x)} \left[ L(a, y) \right] = \arg\min_{a \in \mathcal{A}} \int_{\mathcal{Y}} L(a, y) \, p(y|x) \, dy,
     \label{eq:bayesian_decision}
@@ -57,34 +56,137 @@ Formally, consider a decision problem where we observe data $x \in \mathcal{X}$ 
 where $p(y|x)$ is the posterior distribution of $y$ given $x$. As shown in (\ref{eq:bayesian_decision}), the optimal action $a^*$ depends not merely on a point estimate (such as the posterior mean), but on the entire posterior distribution. A poor characterization of $p(y|x)$ can lead to suboptimal decisions even with an accurate predictive model. Thus, robust and interpretable decision-making fundamentally requires well-calibrated uncertainty estimates. Consequently, a central challenge in modern machine learning, particularly for complex black-box models like deep neural networks, is to provide rigorous and reliable uncertainty measures for predictions. Without such measures, deploying these models in high-stakes domains remains risky.
 
 
-To address this challenge, a variety of UQ methods have been developed, each with its own set of limitations that restrict practical applicability. \textbf{Parametric models}, for instance, often rely on strong distributional assumptions (e.g., normality) that are rarely justified in complex, real-world data settings. \textbf{Asymptotic theories}, while providing theoretical guarantees under ideal conditions, require sample sizes that are often unattainable in practice, and their convergence may not be guaranteed for finite or moderate datasets. Within the Bayesian paradigm, the choice of a \textbf{prior distribution} can be subjective and difficult to justify, while the computation of the \textbf{posterior distribution} is frequently intractable for high-dimensional or non-conjugate models, necessitating approximate inference schemes that may themselves introduce error. Among more recent machine learning approaches, \textbf{ensemble methods} (e.g., deep ensembles) can yield well-calibrated uncertainty estimates but at a prohibitive computational cost, as they require training and maintaining multiple models—a significant burden for large datasets and complex architectures. Techniques like \textbf{Monte Carlo Dropout} offer a more lightweight alternative by approximating Bayesian inference within neural networks, yet they impose specific architectural constraints (e.g., dropout layers) and require careful tuning of training regimes. Lastly, \textbf{generative models} (e.g., variational autoencoders or normalizing flows) can model complex data distributions but are notoriously expensive to train and may be challenging to scale to high-dimensional problems. In summary, existing methods are often constrained by strong assumptions, high computational demands, or a lack of finite-sample guarantees, highlighting the need for a framework that is both model-agnostic and theoretically rigorous.
+To address this challenge, a variety of UQ methods have been developed, each with its own set of limitations that restrict practical applicability. Parametric models, for instance, often rely on strong distributional assumptions (e.g., normality) that are rarely justified in complex, real-world data settings \citep{wasserman2004all}. 
+Asymptotic theories, while providing theoretical guarantees under ideal conditions, require sample sizes that are often unattainable in practice, and their convergence may not be guaranteed for finite or moderate datasets \citep{vovk2005algorithmic}. 
+Within the Bayesian paradigm, the choice of a prior distribution can be subjective and difficult to justify. Furthermore, computing the posterior distribution is often intractable for high-dimensional or non-conjugate models, which often necessitates the use of approximate inference schemes that may themselves introduce errors \citep{murphy2012machine}.
+Among more recent machine learning approaches, ensemble methods (e.g., deep ensembles \citep{lakshminarayanan2017simple}) can yield well-calibrated uncertainty estimates but at a prohibitive computational cost, as they require training and maintaining multiple models, which is a significant burden for large datasets and complex architectures. 
+Techniques like Monte Carlo Dropout \citep{gal2016dropout} offer a more lightweight alternative by approximating Bayesian inference within neural networks, yet they impose specific architectural constraints (e.g., dropout layers) and require careful tuning of key hyperparameters, most notably the dropout rate, as well as the overall training schedule.
+Lastly, generative models (e.g., diffusion \citep{ho2020denoising} or flow matching \citep{lipman2022flow}) can model complex data distributions but are notoriously expensive to train and may be challenging to scale to high-dimensional problems.
+In summary, existing methods are often constrained by strong assumptions, high computational demands, or a lack of finite-sample guarantees, highlighting the need for a framework that is both model-agnostic and theoretically rigorous.
+
+The conformal prediction (CP) framework emerges as a compelling solution to these limitations, offering a model-agnostic approach to uncertainty quantification with finite-sample, distribution-free guarantees \citep{LearningByTransduction, vovk2005algorithmic}. Its core mechanism relies on the concept of \emph{nonconformity scores}. For any new input, CP evaluates how nonconforming each potential output appears relative to a set of labeled reference (or calibration) data. By calibrating a threshold based on the empirical distribution of these scores, CP constructs a prediction set (for classification) or a prediction interval (for regression) that is guaranteed to contain the true outcome with a user-specified probability (e.g., 90\%), under the weak assumption of data exchangeability. This procedure essentially uses past empirical errors to quantify future uncertainty, requiring no strong distributional assumptions, no modifications to the underlying model, and no asymptotic approximations.
+
+
+Originally introduced by Gammerman, Vovk, and Vapnik in 1998 for Support Vector Machines \citep{hearst1998support}, Conformal Prediction has transcended its initial scope to become a pervasive framework in modern reliable AI\@.
+While theoretically grounded, its value is most evident in its rapidly expanding real-world impact across diverse high-stakes domains.
+In the natural sciences, CP is now pivotal for guiding protein design sequences \citep{fannjiang2022conformal}.
+In the realm of robotics and embodied AI, it facilitates safe planning in dynamic environments \citep{lindemann2023safe} and has been successfully applied to align uncertainty in Large Language Models (LLMs) for robotic interaction \citep{ren2023robots}.
+The framework's reliability is equally critical in healthcare, where it has been deployed for estimating diagnostic uncertainty in cancer pathology \citep{olsson2022estimating} and predicting disease courses for conditions such as multiple sclerosis \citep{sreenivasan2025conformal}.
+Additionally, CP has found utility in earth observation \citep{singh2024uncertainty}, further demonstrating its versatility and robustness in securing trust for safety-critical applications.
+Collectively, these advancements illustrate the transformative potential of CP in bridging the gap between complex, black-box algorithms and the rigorous safety standards demanded by real-world applications.
 
 
 
-\section{General formatting instructions}
-\label{gen_inst}
+\section{Methods}
+\label{sec:methods}
 
-The text must be confined within a rectangle 5.5~inches (33~picas) wide and
-9~inches (54~picas) long. The left margin is 1.5~inch (9~picas).
-Use 10~point type with a vertical spacing of 11~points. Times New Roman is the
-preferred typeface throughout. Paragraphs are separated by 1/2~line space,
-with no indentation.
+This section formalizes the CP framework. We begin with the general transductive formulation, proceed to the computationally efficient Split Conformal Prediction, and conclude by discussing advanced variants designed to address limitations regarding adaptivity, distribution shifts, and conditional coverage.
 
-Paper title is 17~point, initial caps/lower case, bold, centered between
-2~horizontal rules. Top rule is 4~points thick and bottom rule is 1~point
-thick. Allow 1/4~inch space above and below title to rules. All pages should
-start at 1~inch (6~picas) from the top of the page.
+\subsection{General Conformal Prediction Framework}
 
-%The version of the paper submitted for review should have ``Anonymous Author(s)'' as the author of the paper.
+Consider a regression or classification problem where we observe a sequence of data points $Z_1, \dots, Z_n$, where $Z_i = (X_i, Y_i) \in \mathcal{X} \times \mathcal{Y}$. We assume these data points are \emph{exchangeable}, meaning their joint distribution is invariant under any permutation. Given a new test input $X_{n+1}$, our goal is to construct a prediction set $C(X_{n+1}) \subseteq \mathcal{Y}$ that covers the unknown true label $Y_{n+1}$ with a user-specified probability $1-\alpha$, where $\alpha \in (0, 1)$ is the miscoverage rate.
 
-For the final version, authors' names are
-set in boldface, and each name is centered above the corresponding
-address. The lead author's name is to be listed first (left-most), and
-the co-authors' names (if different address) are set to follow. If
-there is only one co-author, list both author and co-author side by side.
+The general conformal prediction framework, often referred to as Full or Transductive CP \citep{vovk2005algorithmic}, relies on a \emph{nonconformity measure} $S: \mathcal{Z} \to \mathbb{R}$. This function assigns a score $s_i = S(Z_i)$ representing how ``unusual'' a data point $Z_i$ is relative to the others. 
+For a candidate label $y \in \mathcal{Y}$ paired with $X_{n+1}$, we form a hypothetical dataset including $Z_{n+1} = (X_{n+1}, y)$. We then compute nonconformity scores for all $i \in \{1, \dots, n+1\}$. A $p$-value for the candidate $y$ is derived by comparing its score to the scores of the existing data:
+\begin{equation}
+    \pi(y) = \frac{1}{n+1} \sum_{i=1}^{n+1} \mathbb{I}\left( s_i \geq s_{n+1} \right),
+    \label{eq:p_value}
+\end{equation}
+where $\mathbb{I}(\cdot)$ is the indicator function. The prediction set is constructed by including all candidates $y$ that appear statistically plausible:
+\begin{equation}
+    C_{\text{Full}}(X_{n+1}) = \left\{ y \in \mathcal{Y} \mid \pi(y) > \alpha \right\}.
+    \label{eq:full_cp_set}
+\end{equation}
+Under the exchangeability assumption, this set satisfies the marginal validity property:
+\begin{equation}
+\mathbb{P}(Y_{n+1} \in C_{\text{Full}}(X_{n+1})) \ge 1-\alpha,
+\end{equation}
+for any sample size $n$ and any underlying distribution. The structure of the set $C_{\text{Full}}(X_{n+1})$ depends on the nature of the output space $\mathcal{Y}$:
 
-Please pay special attention to the instructions in section \ref{others}
-regarding figures, tables, acknowledgments, and references.
+\paragraph{Classification.} When $\mathcal{Y}$ is a finite set of discrete labels (e.g., $\{1, \dots, K\}$), we can explicitly calculate $\pi(y)$ for each possible class. The prediction set is simply the subset of labels for which the $p$-value exceeds $\alpha$.
+
+\paragraph{Regression.} When $\mathcal{Y} = \mathbb{R}$, iterating through all possible values of $y$ is computationally impossible. However, for standard nonconformity measures (such as the absolute error $|y - \hat{\mu}(X_{n+1})|$), the function $\pi(y)$ is generally quasi-concave with respect to $y$. Consequently, the set defined in (\ref{eq:full_cp_set}) typically forms a continuous interval (or a union of intervals). In practice, this interval is computed by inverting the nonconformity score function to find the boundaries of $y$ that satisfy the condition $\pi(y) > \alpha$.
+
+\subsection{Split Conformal Prediction}
+
+While theoretically robust, Full CP is computationally prohibitive for complex models (e.g., neural networks) because it requires retraining the underlying model for every candidate $y$ to compute the scores $s_i$ properly. To address this computational bottleneck, \emph{Split Conformal Prediction} (SCP), also known as Inductive CP, is the most widely adopted variant in modern machine learning \citep{papadopoulos2002inductive, lei2018distribution}.
+
+In SCP, the available data is partitioned into two disjoint subsets: a proper training set $\mathcal{D}_{\text{train}}$ and a calibration set $\mathcal{D}_{\text{cal}} = \{(X_i, Y_i)\}_{i=1}^{n}$. A predictive model is trained solely on $\mathcal{D}_{\text{train}}$. We then compute nonconformity scores on $\mathcal{D}_{\text{cal}}$ using this fixed model. The construction of the prediction set depends on the task type:
+
+\paragraph{Classification.}
+For a classification task with discrete labels $\mathcal{Y} = \{1, \dots, K\}$, the model $\hat{f}: \mathcal{X} \to [0, 1]^K$ typically outputs a probability distribution over classes, where $\hat{f}(x)_k$ denotes the estimated probability of class $k$. A common nonconformity score is the complement of the probability assigned to the true class:
+\begin{equation}
+    s_i = 1 - \hat{f}(X_i)_{Y_i}, \quad \forall i \in \mathcal{D}_{\text{cal}}.
+\end{equation}
+Let $\hat{q}$ be the $\lceil (n+1)(1-\alpha) \rceil / n$ empirical quantile of the calibration scores $\{s_1, \dots, s_n\}$. The prediction set includes all classes with a predicted probability above the calibrated threshold:
+\begin{equation}
+    C_{\text{SCP}}(X_{n+1}) = \left\{ k \in \mathcal{Y} \mid \hat{f}(X_{n+1})_k \ge 1 - \hat{q} \right\}.
+    \label{eq:scp_set_class}
+\end{equation}
+This formulation, often referred to as Least Ambiguous Set-valued Classifiers \citep{sadinle2019least}, guarantees that the true label is included in the set with probability at least $1-\alpha$.
+
+\paragraph{Regression.}
+For a regression task ($\mathcal{Y} = \mathbb{R}$), let $\hat{\mu}: \mathcal{X} \to \mathbb{R}$ be the trained model. A standard choice for the nonconformity score is the absolute residual:
+\begin{equation}
+    s_i = |Y_i - \hat{\mu}(X_i)|, \quad \forall i \in \mathcal{D}_{\text{cal}}.
+\end{equation}
+Similarly, let $\hat{q}$ be the $\lceil (n+1)(1-\alpha) \rceil / n$ empirical quantile of these regression scores. The prediction set for a new input $X_{n+1}$ is constructed as a fixed-width interval:
+\begin{equation}
+    C_{\text{SCP}}(X_{n+1}) = \left[ \hat{\mu}(X_{n+1}) - \hat{q}, \quad \hat{\mu}(X_{n+1}) + \hat{q} \right].
+    \label{eq:scp_interval}
+\end{equation}
+
+\vspace{0.5em}
+In both cases, SCP maintains the finite-sample validity guarantee provided the calibration and test data are exchangeable. Because the model is trained only once, SCP is computationally efficient and model-agnostic.
+
+\subsection{Advanced Variants addressing Limitations}
+
+While SCP provides rigorous marginal coverage, the formulation in (\ref{eq:scp_interval}) constructs intervals of fixed width $2\hat{q}$ for all inputs. This assumes homoscedasticity, which is rarely true in real-world data where uncertainty often varies with the input $X$ (heteroscedasticity). To address this and other limitations, several key variants have been developed.
+
+\paragraph{Locally Adaptive Conformal Prediction.} Standard SCP often results in inefficient sets (too wide for easy inputs, too narrow for hard ones). To mitigate this, \emph{Conformalized Quantile Regression} (CQR) \citep{romano2019conformal} was proposed to construct intervals that adapt their width to the local difficulty of the input. The CQR procedure consists of two main steps: quantile regression training and conformal calibration.
+
+First, using the training set $\mathcal{D}_{\text{train}}$, we train a regression model $\hat{f}$ to estimate two conditional quantiles: the lower quantile at level $\gamma_{\text{lo}} = \alpha/2$ and the upper quantile at level $\gamma_{\text{hi}} = 1 - \alpha/2$. The model outputs $\hat{q}_{\text{lo}}(x)$ and $\hat{q}_{\text{hi}}(x)$, which are optimized by minimizing the pinball loss (or quantile loss) \citep{koenker2001quantile}:
+\begin{equation}
+    \mathcal{L}(y, \hat{y}, \gamma) = \max \left( \gamma (y - \hat{y}), (\gamma - 1) (y - \hat{y}) \right).
+\end{equation}
+The total objective minimizes the average loss over both quantiles: $\sum_{i \in \mathcal{D}_{\text{train}}} [\mathcal{L}(y_i, \hat{q}_{\text{lo}}(x_i), \gamma_{\text{lo}}) + \mathcal{L}(y_i, \hat{q}_{\text{hi}}(x_i), \gamma_{\text{hi}})]$.
+
+Second, although these raw quantile estimates provide a heuristic interval $[\hat{q}_{\text{lo}}(X), \hat{q}_{\text{hi}}(X)]$, they do not guarantee finite-sample coverage. CQR acts as a ``wrapper'' to rigorously calibrate them. We compute nonconformity scores on the calibration set $\mathcal{D}_{\text{cal}}$ as:
+\begin{equation}
+    s_i = \max \left( \hat{q}_{\text{lo}}(X_i) - Y_i, \; Y_i - \hat{q}_{\text{hi}}(X_i) \right).
+\end{equation}
+Intuitively, $s_i$ measures the signed distance from the true label $Y_i$ to the nearest boundary of the predicted interval. If $Y_i$ falls inside the interval, $s_i$ is negative; if it falls outside, $s_i$ is positive.
+
+Let $\hat{q}$ be the $\lceil (n+1)(1-\alpha) \rceil / n$ empirical quantile of these scores $\{s_1, \dots, s_n\}$. The final conformalized prediction interval for a new input $X_{n+1}$ is constructed by expanding (or shrinking) the raw quantile estimates by $\hat{q}$:
+\begin{equation}
+    C_{\text{CQR}}(X_{n+1}) = \left[ \hat{q}_{\text{lo}}(X_{n+1}) - \hat{q}, \quad \hat{q}_{\text{hi}}(X_{n+1}) + \hat{q} \right].
+\end{equation}
+This procedure ensures valid coverage while allowing the interval width $\hat{q}_{\text{hi}}(X) - \hat{q}_{\text{lo}}(X) + 2\hat{q}$ to vary dynamically based on the input $X$, significantly improving informativeness in heteroscedastic settings.
+
+\paragraph{Covariate Shift and Weighted Conformal Prediction.}
+The standard exchangeability assumption is violated under distribution shift, where the test distribution $P_{\text{test}}(X)$ differs from the training distribution $P_{\text{train}}(X)$. Under such \emph{covariate shift}, standard CP loses its coverage guarantee. \cite{tibshirani2019conformal} proposed \emph{Weighted Conformal Prediction} (WCP), which adjusts the quantile calculation using likelihood ratios. For each calibration point $X_i \in \mathcal{D}_{\text{cal}}$, we assign a weight proportional to the density ratio:
+\begin{equation}
+    w(X_i) = \frac{dP_{\text{test}}(X_i)}{dP_{\text{train}}(X_i)} = \frac{p_{\text{test}}(X_i)}{p_{\text{train}}(X_i)},
+\end{equation}
+where $p_{\text{test}}$ and $p_{\text{train}}$ denote the probability density functions (or probability mass functions) of the test and training distributions, respectively. Intuitively, $w(X_i)$ quantifies how much more likely the input $X_i$ is to appear in the test environment compared to the training environment.
+
+Given these weights, WCP modifies the standard calibration procedure by replacing the uniform empirical distribution with a weighted counterpart. Specifically, after computing nonconformity scores $\{s_i\}_{i=1}^n$ on the calibration set, we assign a normalized probability mass to each point. For a new test input $X_{n+1}$, the calibration points are weighted by $w(X_i)$, while the test point itself is assigned a fixed weight of 1 (reflecting its draw from the target distribution). The resulting probability weights are defined as:
+\begin{equation}
+    p_i(X_{n+1}) = \frac{w(X_i)}{\sum_{j=1}^n w(X_j) + 1}, \quad p_{n+1}(X_{n+1}) = \frac{1}{\sum_{j=1}^n w(X_j) + 1}.
+\end{equation}
+These probabilities are then used to construct the weighted empirical cumulative distribution function of the scores:
+\begin{equation}
+    \hat{F}(s) = \sum_{i=1}^n p_i(X_{n+1}) \, \mathbb{I}(s_i \le s) + p_{n+1}(X_{n+1}) \, \mathbb{I}(\infty \le s).
+\end{equation}
+The calibrated threshold $\hat{q}$ is determined as the smallest score $s$ such that $\hat{F}(s) \ge 1-\alpha$. Consequently, the final prediction set is formed as $C_{\text{WCP}}(X_{n+1}) = [\hat{\mu}(X_{n+1}) - \hat{q}, \; \hat{\mu}(X_{n+1}) + \hat{q}]$. By incorporating the likelihood ratio into the quantile estimation, this method ensures that the coverage guarantee holds with respect to the target distribution $P_{\text{test}}$.
+
+\paragraph{Conditional Coverage and Mondrian CP.}
+SCP guarantees \emph{marginal} coverage (on average over all inputs), but may systematically under-cover for specific subgroups of the data. To address the need for \emph{conditional} coverage (i.e., validity within specific classes or groups), \emph{Mondrian Conformal Prediction} \citep{vovk2005algorithmic} partitions the calibration data into categories (or "bins") and performs calibration separately within each bin. This ensures that the coverage guarantee holds independently for each defined subgroup, preventing the model from sacrificing accuracy on minority classes to satisfy the global average.
+
+
+
+
+
 
 \section{Headings: first level}
 \label{headings}
@@ -320,20 +422,7 @@ consistent. It is permissible to reduce the font size to `small' (9-point)
 when listing the references. {\bf Remember that this year you can use
 a ninth page as long as it contains \emph{only} cited references.}
 
-\small{
-[1] Alexander, J.A. \& Mozer, M.C. (1995) Template-based algorithms
-for connectionist rule extraction. In G. Tesauro, D. S. Touretzky
-and T.K. Leen (eds.), {\it Advances in Neural Information Processing
-Systems 7}, pp. 609-616. Cambridge, MA: MIT Press.
-
-[2] Bower, J.M. \& Beeman, D. (1995) {\it The Book of GENESIS: Exploring
-Realistic Neural Models with the GEneral NEural SImulation System.}
-New York: TELOS/Springer-Verlag.
-
-[3] Hasselmo, M.E., Schnell, E. \& Barkai, E. (1995) Dynamics of learning
-and recall at excitatory recurrent synapses and cholinergic modulation
-in rat hippocampal region CA3. {\it Journal of Neuroscience}
-{\bf 15}(7):5249-5262.
-}
+\bibliographystyle{plainnat} % 或 unsrtnat, abbrvnat 等
+\bibliography{references}
 
 \end{document}
