@@ -2,41 +2,21 @@
 \usepackage{nips15submit_e,times}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
-\title{Formatting Instructions for NIPS 2015}
+\title{What If Without the Conformal Prediction Method}
 
 
 \author{
-David S.~Hippocampus\thanks{ Use footnote for providing further information
-about author (webpage, alternative address)---\emph{not} for acknowledging
-funding agencies.} \\
-Department of Computer Science\\
-Cranberry-Lemon University\\
-Pittsburgh, PA 15213 \\
-\texttt{hippo@cs.cranberry-lemon.edu} \\
-\And
-Coauthor \\
-Affiliation \\
-Address \\
-\texttt{email} \\
-\AND
-Coauthor \\
-Affiliation \\
-Address \\
-\texttt{email} \\
-\And
-Coauthor \\
-Affiliation \\
-Address \\
-\texttt{email} \\
-\And
-Coauthor \\
-Affiliation \\
-Address \\
-\texttt{email} \\
-(if needed)\\
+XIONG Zhixi\\
+Department of Mathematics\\
+Hong Kong University of Science and Technology\\
+Hong Kong, China
 }
 
 % The \author macro works with any number of authors. There are two commands
@@ -50,7 +30,7 @@ Address \\
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-%\nipsfinalcopy % Uncomment for camera-ready version
+\nipsfinalcopy % Uncomment for camera-ready version
 
 \begin{document}
 
@@ -65,117 +45,21 @@ line spaces precede the abstract. The abstract must be limited to one
 paragraph.
 \end{abstract}
 
-\section{Submission of papers to NIPS 2015}
+\section{Introduction}
 
-NIPS requires electronic submissions.  The electronic submission site is  
-\begin{center}
-   \url{http://papers.nips.cc}
-\end{center}
+In scientific, engineering, and everyday decision-making, obtaining a prediction is insufficient without also understanding its reliability through effective uncertainty quantification (UQ). Whether in autonomous driving, medical diagnosis, or financial risk assessment, relying solely on point estimates poses significant risks, as models are always imperfect and the world exhibits inherent noise. This challenge is formalized in classical decision theory, where optimal decisions require not only an expected outcome but a complete characterization of uncertainty.
 
-Please read carefully the
-instructions below, and follow them faithfully.
-\subsection{Style}
-
-Papers to be submitted to NIPS 2015 must be prepared according to the
-instructions presented here. Papers may be only up to eight pages long,
-including figures. Since 2009 an additional ninth page \textit{containing only
-cited references} is allowed. Papers that exceed nine pages will not be
-reviewed, or in any other way considered for presentation at the conference.
-%This is a strict upper bound. 
-
-Please note that this year we have introduced automatic line number generation
-into the style file (for \LaTeXe and Word versions). This is to help reviewers
-refer to specific lines of the paper when they make their comments. Please do
-NOT refer to these line numbers in your paper as they will be removed from the
-style file for the final version of accepted papers.
-
-The margins in 2015 are the same as since 2007, which allow for $\approx 15\%$
-more words in the paper compared to earlier years. We are also again using 
-double-blind reviewing. Both of these require the use of new style files.
-
-Authors are required to use the NIPS \LaTeX{} style files obtainable at the
-NIPS website as indicated below. Please make sure you use the current files and
-not previous versions. Tweaking the style files may be grounds for rejection.
-
-%% \subsection{Double-blind reviewing}
-
-%% This year we are doing double-blind reviewing: the reviewers will not know 
-%% who the authors of the paper are. For submission, the NIPS style file will 
-%% automatically anonymize the author list at the beginning of the paper.
-
-%% Please write your paper in such a way to preserve anonymity. Refer to
-%% previous work by the author(s) in the third person, rather than first
-%% person. Do not provide Web links to supporting material at an identifiable
-%% web site.
-
-%%\subsection{Electronic submission}
-%%
-%% \textbf{THE SUBMISSION DEADLINE IS June 5, 2015. SUBMISSIONS MUST BE LOGGED BY
-%% 23:00, June 5, 2015, UNIVERSAL TIME}
-
-%% You must enter your submission in the electronic submission form available at
-%% the NIPS website listed above. You will be asked to enter paper title, name of
-%% all authors, keyword(s), and data about the contact
-%% author (name, full address, telephone, fax, and email). You will need to
-%% upload an electronic (postscript or pdf) version of your paper.
-
-%% You can upload more than one version of your paper, until the
-%% submission deadline. We strongly recommended uploading your paper in
-%% advance of the deadline, so you can avoid last-minute server congestion.
-%%
-%% Note that your submission is only valid if you get an e-mail
-%% confirmation from the server. If you do not get such an e-mail, please
-%% try uploading again. 
+Formally, consider a decision problem where we observe data $x \in \mathcal{X}$ and must choose an action $a \in \mathcal{A}$. The consequence of this action depends on an unknown state $y \in \mathcal{Y}$, and is quantified by a loss function $L: \mathcal{A} \times \mathcal{Y} \to \mathbb{R}$. In the Bayesian decision theory, the optimal decision minimizes the \emph{posterior expected loss}:
+\begin{equation}
+    a^*(x) = \arg\min_{a \in \mathcal{A}} \mathbb{E}_{y \sim p(y|x)} \left[ L(a, y) \right] = \arg\min_{a \in \mathcal{A}} \int_{\mathcal{Y}} L(a, y) \, p(y|x) \, dy,
+    \label{eq:bayesian_decision}
+\end{equation}
+where $p(y|x)$ is the posterior distribution of $y$ given $x$. As shown in (\ref{eq:bayesian_decision}), the optimal action $a^*$ depends not merely on a point estimate (such as the posterior mean), but on the entire posterior distribution. A poor characterization of $p(y|x)$ can lead to suboptimal decisions even with an accurate predictive model. Thus, robust and interpretable decision-making fundamentally requires well-calibrated uncertainty estimates. Consequently, a central challenge in modern machine learning, particularly for complex black-box models like deep neural networks, is to provide rigorous and reliable uncertainty measures for predictions. Without such measures, deploying these models in high-stakes domains remains risky.
 
 
-\subsection{Retrieval of style files}
+To address this challenge, a variety of UQ methods have been developed, each with its own set of limitations that restrict practical applicability. \textbf{Parametric models}, for instance, often rely on strong distributional assumptions (e.g., normality) that are rarely justified in complex, real-world data settings. \textbf{Asymptotic theories}, while providing theoretical guarantees under ideal conditions, require sample sizes that are often unattainable in practice, and their convergence may not be guaranteed for finite or moderate datasets. Within the Bayesian paradigm, the choice of a \textbf{prior distribution} can be subjective and difficult to justify, while the computation of the \textbf{posterior distribution} is frequently intractable for high-dimensional or non-conjugate models, necessitating approximate inference schemes that may themselves introduce error. Among more recent machine learning approaches, \textbf{ensemble methods} (e.g., deep ensembles) can yield well-calibrated uncertainty estimates but at a prohibitive computational cost, as they require training and maintaining multiple models—a significant burden for large datasets and complex architectures. Techniques like \textbf{Monte Carlo Dropout} offer a more lightweight alternative by approximating Bayesian inference within neural networks, yet they impose specific architectural constraints (e.g., dropout layers) and require careful tuning of training regimes. Lastly, \textbf{generative models} (e.g., variational autoencoders or normalizing flows) can model complex data distributions but are notoriously expensive to train and may be challenging to scale to high-dimensional problems. In summary, existing methods are often constrained by strong assumptions, high computational demands, or a lack of finite-sample guarantees, highlighting the need for a framework that is both model-agnostic and theoretically rigorous.
 
-The style files for NIPS and other conference information are available on the World Wide Web at
-\begin{center}
-   \url{http://www.nips.cc/}
-\end{center}
-The file \verb+nips2015.pdf+ contains these 
-instructions and illustrates the
-various formatting requirements your NIPS paper must satisfy. \LaTeX{}
-users can choose between two style files:
-\verb+nips15submit_09.sty+ (to be used with \LaTeX{} version 2.09) and
-\verb+nips15submit_e.sty+ (to be used with \LaTeX{}2e). The file
-\verb+nips2015.tex+ may be used as a ``shell'' for writing your paper. All you
-have to do is replace the author, title, abstract, and text of the paper with
-your own. The file
-\verb+nips2015.rtf+ is provided as a shell for MS Word users.
 
-The formatting instructions contained in these style files are summarized in
-sections \ref{gen_inst}, \ref{headings}, and \ref{others} below.
-
-%% \subsection{Keywords for paper submission}
-%% Your NIPS paper can be submitted with any of the following keywords (more than one keyword is possible for each paper):
-
-%% \begin{verbatim}
-%% Bioinformatics
-%% Biological Vision
-%% Brain Imaging and Brain Computer Interfacing
-%% Clustering
-%% Cognitive Science
-%% Control and Reinforcement Learning
-%% Dimensionality Reduction and Manifolds
-%% Feature Selection
-%% Gaussian Processes
-%% Graphical Models
-%% Hardware Technologies
-%% Kernels
-%% Learning Theory
-%% Machine Vision
-%% Margins and Boosting
-%% Neural Networks
-%% Neuroscience
-%% Other Algorithms and Architectures
-%% Other Applications
-%% Semi-supervised Learning
-%% Speech and Signal Processing
-%% Text and Language Applications
-
-%% \end{verbatim}
 
 \section{General formatting instructions}
 \label{gen_inst}
