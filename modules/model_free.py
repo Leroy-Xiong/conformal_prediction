@@ -1,15 +1,23 @@
 import os
+import glob
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import kagglehub
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import Ridge
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
-from sklearn.datasets import fetch_openml, load_diabetes
+
+# --- Import All 7 Model Types ---
+from sklearn.linear_model import Ridge
+from sklearn.svm import SVR
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.neural_network import MLPRegressor
 
 # Configuration for high-quality publication plots
 plt.rcParams['figure.dpi'] = 300
@@ -18,12 +26,7 @@ sns.set_theme(style="whitegrid")
 class ModelFreeExperiment:
     """
     Experiment: Model Agnosticism (Model-Free).
-    
-    Demonstrates:
-    1. Validity: All models (Linear, RF, NN) achieve target coverage (~90%).
-    2. Efficiency: Better models (Lower MSE) produce sharper (narrower) intervals.
-    
-    Dataset: Concrete Compressive Strength (Real-world Engineering Data).
+    Sorted by Accuracy (MSE) and exported as separate images.
     """
 
     def __init__(self, alpha=0.1, random_state=42, save_dir='./results/model_free'):
@@ -35,78 +38,71 @@ class ModelFreeExperiment:
             os.makedirs(self.save_dir)
 
     def load_data(self):
-        """
-        Robust data loading. Tries OpenML first, falls back to Diabetes if network fails.
-        """
-        print("[1/6] Loading Dataset...")
-        # Try loading Concrete Compressive Strength (UCI ID: 4353)
-        # return_X_y=True fixes the 'NoneType' error
-        X, y = fetch_openml(data_id=4353, return_X_y=True, as_frame=False, parser='auto')
-        self.dataset_name = "Concrete Compressive Strength"
-        print("      Loaded: Concrete Dataset (OpenML)")
-
-        self.X = X
-        self.y = y
-        print(f"      Data Shape: {self.X.shape}")
+        print("[1/6] Downloading Dataset via KaggleHub...")
+        try:
+            path = kagglehub.dataset_download("elikplim/concrete-compressive-strength-data-set")
+            csv_files = glob.glob(os.path.join(path, "*.csv"))
+            if not csv_files:
+                raise FileNotFoundError("No CSV file found.")
+            
+            df = pd.read_csv(csv_files[0])
+            self.dataset_name = "Concrete Strength"
+            self.X = df.iloc[:, :-1].values
+            self.y = df.iloc[:, -1].values
+            print(f"      Loaded. Shape: {self.X.shape}")
+            
+        except Exception as e:
+            print(f"      Error: {e}")
+            raise e
 
     def prepare_data(self):
         print("[2/6] Splitting and Scaling Data...")
-        # Split: 40% Train, 30% Calibration, 30% Test
         X_train_full, X_test, y_train_full, y_test = train_test_split(
             self.X, self.y, test_size=0.3, random_state=self.random_state
         )
         X_train, X_cal, y_train, y_cal = train_test_split(
-            X_train_full, y_train_full, test_size=0.5, random_state=self.random_state
+            X_train_full, y_train_full, test_size=0.4, random_state=self.random_state
         )
         
-        # Scaling (Critical for Ridge and MLP)
         scaler = StandardScaler()
         self.X_train = scaler.fit_transform(X_train)
         self.X_cal = scaler.transform(X_cal)
         self.X_test = scaler.transform(X_test)
-        
         self.y_train = y_train
         self.y_cal = y_cal
         self.y_test = y_test
 
     def run_comparison(self):
-        print("[3/6] Training Models and Calibrating...")
+        print("[3/6] Training 7 Models and Calibrating...")
         
-        # Define models with decent hyperparameters
         models = {
             'Linear (Ridge)': Ridge(alpha=1.0),
-            
-            # RF: standard strong baseline
-            'Random Forest': RandomForestRegressor(n_estimators=200, min_samples_leaf=3, random_state=self.random_state),
-            
-            # MLP: Needs enough iterations to converge on this data
-            'Neural Network': MLPRegressor(hidden_layer_sizes=(100, 50), activation='relu', 
-                                          solver='adam', max_iter=5000, random_state=self.random_state)
+            'KNN (Distance)': KNeighborsRegressor(n_neighbors=5),
+            'SVR (Kernel)': SVR(kernel='rbf', C=10.0, epsilon=0.1),
+            'Decision Tree': DecisionTreeRegressor(max_depth=10, random_state=self.random_state),
+            'Random Forest': RandomForestRegressor(n_estimators=100, min_samples_leaf=2, random_state=self.random_state),
+            'Gradient Boosting': GradientBoostingRegressor(n_estimators=100, max_depth=4, learning_rate=0.1, random_state=self.random_state),
+            'Neural Network': MLPRegressor(hidden_layer_sizes=(100, 50), activation='relu', solver='adam', max_iter=2000, random_state=self.random_state)
         }
         
         results = []
 
         for name, model in models.items():
             print(f"      Processing: {name}...")
-            
-            # 1. Train
             model.fit(self.X_train, self.y_train)
             
-            # 2. Calibrate
             pred_cal = model.predict(self.X_cal)
-            scores = np.abs(self.y_cal - pred_cal) # Score = |y - y_hat|
+            scores = np.abs(self.y_cal - pred_cal)
             
             n_cal = len(self.y_cal)
             q_level = np.ceil((n_cal + 1) * (1 - self.alpha)) / n_cal
             q_level = min(1.0, q_level)
             q_hat = np.quantile(scores, q_level, method='higher')
             
-            # 3. Test
             pred_test = model.predict(self.X_test)
             lower = pred_test - q_hat
             upper = pred_test + q_hat
             
-            # 4. Metrics
             covered = (self.y_test >= lower) & (self.y_test <= upper)
             coverage = np.mean(covered)
             width = np.mean(upper - lower)
@@ -119,55 +115,75 @@ class ModelFreeExperiment:
                 'MSE': mse
             })
 
-        self.results_df = pd.DataFrame(results)
-        print("\nExperiment Results:")
+        # SORTING STEP: Sort by MSE Descending (High Error -> Low Error)
+        # This makes the plots show the progression from "Weak" to "Strong" models
+        self.results_df = pd.DataFrame(results).sort_values(by='MSE', ascending=False)
+        print("\nExperiment Results (Sorted by MSE):")
         print(self.results_df)
 
     def plot_results(self):
-        print("[4/6] Generating Plots...")
+        print("[4/6] Generating Separate Plots...")
         
-        # Create a figure with 3 subplots: Validity, MSE, Efficiency
-        fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-        
-        # Colors
-        palette = {"Linear (Ridge)": "#34495e", "Random Forest": "#e74c3c", "Neural Network": "#2ecc71"}
-        
-        # --- Plot 1: Validity (Coverage) ---
-        sns.barplot(data=self.results_df, x='Model', y='Coverage', ax=axes[0], palette=palette)
-        axes[0].axhline(1 - self.alpha, color='black', linestyle='--', linewidth=1.5, label='Target (90%)')
-        axes[0].set_ylim(0.0, 1.1)
-        axes[0].set_title("1. Validity (Coverage)", fontsize=14, fontweight='bold')
-        axes[0].set_ylabel("Empirical Coverage Rate")
-        axes[0].set_xlabel("")
-        axes[0].legend(loc='lower right')
-        
-        for i, row in self.results_df.iterrows():
-            axes[0].text(i, row['Coverage'] + 0.02, f"{row['Coverage']:.1%}", ha='center', fontweight='bold')
+        # Define a consistent color palette
+        # Use 'Spectral' so the transition corresponds to the model sorting
+        palette = sns.color_palette("Spectral", n_colors=7)
 
-        # --- Plot 2: Accuracy (MSE) - NEW ---
-        sns.barplot(data=self.results_df, x='Model', y='MSE', ax=axes[1], palette=palette)
-        axes[1].set_title("2. Accuracy (MSE)", fontsize=14, fontweight='bold')
-        axes[1].set_ylabel("Mean Squared Error (Lower is Better)")
-        axes[1].set_xlabel("")
+        # --- Plot 1: Validity (Coverage) ---
+        plt.figure(figsize=(8, 6))
+        ax1 = sns.barplot(data=self.results_df, x='Model', y='Coverage', hue='Model', palette=palette, legend=False)
+        plt.axhline(1 - self.alpha, color='black', linestyle='--', linewidth=2, label='Target (90%)')
+        plt.ylim(0.0, 1.15)
+        plt.title("Validity: Coverage is Model-Invariant", fontsize=16)
+        plt.ylabel("Empirical Coverage Rate", fontsize=14)
+        plt.xlabel("")
+        plt.xticks(rotation=45, ha='right')
+        plt.legend(loc='lower right')
         
-        for i, row in self.results_df.iterrows():
-            axes[1].text(i, row['MSE'] + (row['MSE']*0.02), f"{row['MSE']:.1f}", ha='center', color='black')
+        for i, row in enumerate(self.results_df.itertuples()):
+            ax1.text(i, row.Coverage + 0.02, f"{row.Coverage:.1%}", ha='center', fontweight='bold', fontsize=10)
+            
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.save_dir, 'model_free_validity.png'))
+        print("      Saved: model_free_validity.png")
+        plt.close()
+
+        # --- Plot 2: Accuracy (MSE) ---
+        plt.figure(figsize=(8, 6))
+        ax2 = sns.barplot(data=self.results_df, x='Model', y='MSE', hue='Model', palette=palette, legend=False)
+        plt.title("Accuracy: MSE (Sorted Worst to Best)", fontsize=16)
+        plt.ylabel("Mean Squared Error (Lower is Better)", fontsize=14)
+        plt.xlabel("")
+        plt.xticks(rotation=45, ha='right')
+        
+        for i, row in enumerate(self.results_df.itertuples()):
+            ax2.text(i, row.MSE + 5, f"{row.MSE:.0f}", ha='center', color='black', fontsize=10)
+            
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.save_dir, 'model_free_accuracy.png'))
+        print("      Saved: model_free_accuracy.png")
+        plt.close()
 
         # --- Plot 3: Efficiency (Width) ---
-        sns.barplot(data=self.results_df, x='Model', y='Avg Width', ax=axes[2], palette=palette)
-        axes[2].set_title("3. Efficiency (Interval Width)", fontsize=14, fontweight='bold')
-        axes[2].set_ylabel("Average Width (Lower is Better)")
-        axes[2].set_xlabel("")
+        plt.figure(figsize=(8, 6))
+        ax3 = sns.barplot(data=self.results_df, x='Model', y='Avg Width', hue='Model', palette=palette, legend=False)
+        plt.title("Efficiency: Interval Width", fontsize=16)
+        plt.ylabel("Average Width (Narrower is Better)", fontsize=14)
+        plt.xlabel("")
+        plt.xticks(rotation=45, ha='right')
         
-        for i, row in self.results_df.iterrows():
-            axes[2].text(i, row['Avg Width'] + (row['Avg Width']*0.02), f"{row['Avg Width']:.1f}", ha='center', color='black')
-
-        plt.suptitle(f"Model Agnosticism on '{self.dataset_name}' (Target $\\alpha={self.alpha}$)", fontsize=16, y=1.05)
+        for i, row in enumerate(self.results_df.itertuples()):
+            ax3.text(i, row._3 + 1, f"{row._3:.1f}", ha='center', color='black', fontsize=10) # row._3 is Avg Width
+            
         plt.tight_layout()
+        plt.savefig(os.path.join(self.save_dir, 'model_free_efficiency.png'))
+        print("      Saved: model_free_efficiency.png")
+        plt.close()
         
-        save_path = os.path.join(self.save_dir, 'model_free_triplot.png')
-        plt.savefig(save_path, bbox_inches='tight')
-        print(f"[5/6] Plot saved to {save_path}")
+    def run(self):
+        self.load_data()
+        self.prepare_data()
+        self.run_comparison()
+        self.plot_results()
 
 if __name__ == "__main__":
     exp = ModelFreeExperiment(alpha=0.1)

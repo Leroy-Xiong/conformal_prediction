@@ -15,11 +15,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 # distribution_free = DistributionFreeExperiment(alpha=0.1)
 # distribution_free.run()
 
-exp = ModelFreeExperiment(alpha=0.1)
-exp.load_data()
-exp.prepare_data()
-exp.run_comparison()
-exp.plot_results()
+model_free = ModelFreeExperiment(alpha=0.1)
+model_free.run()
 
 # exp = UncertaintyExperiment(alpha=0.1) # 90% confidence
 # exp.run_all()
