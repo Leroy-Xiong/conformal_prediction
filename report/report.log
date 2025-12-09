@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  9 DEC 2025 16:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  9 DEC 2025 16:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -334,7 +334,7 @@ Underfull \hbox (badness 2409) in paragraph at lines 181--182
  []
 
 [5]
-<figures/finite_sample_coverage.jpg, id=189, 2862.695pt x 1911.14pt>
+<figures/finite_sample_coverage.jpg, id=185, 2862.695pt x 1911.14pt>
 File: figures/finite_sample_coverage.jpg Graphic file (type jpg)
 <use figures/finite_sample_coverage.jpg>
 Package pdftex.def Info: figures/finite_sample_coverage.jpg  used on input line 209.
@@ -343,49 +343,32 @@ Package pdftex.def Info: figures/finite_sample_coverage.jpg  used on input line 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [6 <./figures/finite_sample_coverage.jpg>]
-
-LaTeX Warning: File `figures/distribution_free.jpg' not found on input line 228.
-
-
-/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex:228: Package pdftex.def Error: File `figures/distribution_free.jpg' not found: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.228 ...textwidth]{figures/distribution_free.jpg}
-                                                   % Replace with your actua...
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 228.
-(/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) (./report.bbl [7] [8] [9]) [10] (./report.aux)
+<figures/distribution_free.jpg, id=192, 2489.3pt x 1773.62625pt>
+File: figures/distribution_free.jpg Graphic file (type jpg)
+<use figures/distribution_free.jpg>
+Package pdftex.def Info: figures/distribution_free.jpg  used on input line 228.
+(pdftex.def)             Requested size: 397.48499pt x 283.1906pt.
+ [7 <./figures/distribution_free.jpg>] (./report.bbl [8]) [9] (./report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 05E2EF99FCDE014D100FF52ABEED2D45;2147.
+(rerunfilecheck)             Checksum: 9DA15F0460E1E7ECCCD4108C71D10C3C;1710.
  ) 
 Here is how much of TeX's memory you used:
- 10952 strings out of 467538
- 167906 string characters out of 5413300
- 595101 words of memory out of 5000000
- 39645 multiletter control sequences out of 15000+600000
- 642817 words of font info for 67 fonts, out of 8000000 for 9000
+ 10886 strings out of 467538
+ 166342 string characters out of 5413300
+ 595027 words of memory out of 5000000
+ 39587 multiletter control sequences out of 15000+600000
+ 642302 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,90p,1169b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (10 pages, 1143404 bytes).
+ 75i,8n,90p,1126b,566s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (9 pages, 1782590 bytes).
 PDF statistics:
- 301 PDF objects out of 1000 (max. 8388607)
- 257 compressed objects within 3 object streams
- 73 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 283 PDF objects out of 1000 (max. 8388607)
+ 241 compressed objects within 3 object streams
+ 70 named destinations out of 1000 (max. 500000)
+ 99 words of extra memory for PDF output out of 10000 (max. 10000000)
 

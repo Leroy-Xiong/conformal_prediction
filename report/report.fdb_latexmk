@@ -1,18 +1,16 @@
 # Fdb version 4
-["bibtex report"] 1765267424.0833 "report.aux" "report.bbl" "report" 1765267436.93796 0
+["bibtex report"] 1765268354.83311 "report.aux" "report.bbl" "report" 1765268665.62767 0
   "./references.bib" 1765200690.19218 7640 6fd57f6c43525ceeeaacd95aca077183 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "report.aux" 1765267435.04746 10022 c83a4eb42190c39c346fa4b77666e7f6 "pdflatex"
+  "report.aux" 1765268665.28934 9668 98df9de99860a1df6b1f6b07e88c934c "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1765267424.64227 "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" "report.pdf" "report" 1765267436.9385 2
-  "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" 1765267413.89445 31617 f2f8718e8945e9a8053ca5766dd40adc ""
+["pdflatex"] 1765268663.39263 "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" "report.pdf" "report" 1765268665.62881 0
+  "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" 1765268656.52455 30645 16c556e1b68d2e165ff5aa052f872680 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
-  "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
-  "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/helvetic/phvb.tfm" 1136768653 2300 14616918391efa49ac8b481a75fbdc1a ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -37,11 +35,9 @@
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1248133631 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
-  "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1136849748 45458 a3faba884469519614ca56ba5f6b1de1 ""
-  "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf" 1136768653 1344 6ff472164bf9de0fb2e864b28ac156d9 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf" 1136768653 1372 788387fea833ef5963f4c5bffe33eb89 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf" 1136768653 1380 0ea3a3370054be6da6acd929ec569f06 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf" 1136768653 1384 a9d8adaf491ce34e5fba99dc7bbe5f39 ""
@@ -92,7 +88,6 @@
   "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1761248321 30662 bfd6e864f4ffc5018b0e2b6260c3181c ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg" 1279039959 678 4792914a8f45be57bb98413425e4c7af ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty" 1291685959 45456 1c8843383c0bd05870c45fa0ebea6cc2 ""
-  "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd" 1137110629 985 1ed784d7bfe47179f3550d2303b073f8 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ptm.fd" 1137110629 961 15056f4a61917ceed3a44e4ac11fcc52 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/times.sty" 1586716065 856 8e0e5c8cca7b18e0400f97f5a2b90a99 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty" 1576624809 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
@@ -103,12 +98,12 @@
   "/import/home4/zxiongal/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1764842993 5541401 6f1ed46165992c53088224406eafa9e9 ""
   "/import/home4/zxiongal/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1764843278 3635935 fa6268260c95fcfb6a2c00682d30951c ""
   "/import/home4/zxiongal/texlive/2025/texmf.cnf" 1764842972.25268 496 01ab80fa0036a81d2df86fb0ac70c709 ""
-  "figures/distribution_free.jpg" 0 -1 0 ""
+  "figures/distribution_free.jpg" 1765267496.2157 650045 2c487519af7e33cb81e716f04ce36407 ""
   "figures/finite_sample_coverage.jpg" 1765264746.22643 941984 6270aafe3fec507f738ced9a10d61bab ""
   "nips15submit_e.sty" 1764845734.01196 8803 4be3f7745104c21ca95f608f0c9c0910 ""
-  "report.aux" 1765267435.04746 10022 c83a4eb42190c39c346fa4b77666e7f6 "pdflatex"
-  "report.bbl" 1765267425.07492 7180 2345bafcbe1b2d6ea15e97d0d9dfb9bf "bibtex report"
-  "report.out" 1765267435.12345 2147 05e2ef99fcde014d100ff52abeed2d45 "pdflatex"
+  "report.aux" 1765268665.28934 9668 98df9de99860a1df6b1f6b07e88c934c "pdflatex"
+  "report.bbl" 1765268355.82297 7180 2345bafcbe1b2d6ea15e97d0d9dfb9bf "bibtex report"
+  "report.out" 1765268665.30634 1710 9da15f0460e1e7ecccd4108c71d10c3c "pdflatex"
   (generated)
   "report.aux"
   "report.log"
