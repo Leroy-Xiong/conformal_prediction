@@ -67,7 +67,7 @@ class FiniteSampleExperiment:
         plt.figure(figsize=(8, 6))
         plt.scatter(self.X[:, bmi_idx], self.y, alpha=0.6, color='#2c3e50', edgecolors='w', s=40)
         
-        plt.title("Diabetes Dataset: BMI vs. Progression", fontsize=14, fontweight='bold')
+        plt.title("Diabetes Dataset: BMI vs. Progression", fontsize=14)
         plt.xlabel("Normalized BMI", fontsize=12)
         plt.ylabel("Disease Progression (Target)", fontsize=12)
         plt.grid(True, alpha=0.3)
@@ -205,7 +205,7 @@ class FiniteSampleExperiment:
         ax.scatter(x_axis[saved_points], y_sorted[saved_points], 
                    color='#f1c40f', s=50, marker='*', label='Saved by CP', zorder=5)
         
-        ax.set_title(f"Trial Snapshot: CP Correction (Calibration q_hat = {data['q_hat']:.2f})", fontsize=16, fontweight='bold')
+        ax.set_title(f"Trial Snapshot: CP Correction (Calibration q_hat = {data['q_hat']:.2f})", fontsize=16)
         ax.set_xlabel("Test Samples (Sorted by Predicted Value)", fontsize=12)
         ax.set_ylabel("Disease Progression", fontsize=12)
         ax.legend(loc='upper left', frameon=True)
@@ -230,24 +230,24 @@ class FiniteSampleExperiment:
         # --- Left Panel: Coverage Histogram ---
         sns.histplot(data=df, x='coverage', hue='method', element='step', 
                      palette=['#e74c3c', '#2ecc71'], bins=20, ax=axes[0], alpha=0.3)
-        axes[0].axvline(target, color='black', linestyle='--', linewidth=2, label=f'Target ({target:.0%})')
-        axes[0].set_title("Validity: Empirical Coverage Distribution", fontsize=14, fontweight='bold')
+        axes[0].axvline(target, color='black', linestyle='--', linewidth=1, label=f'Target ({target:.0%})')
+        axes[0].set_title("Validity: Empirical Coverage Distribution", fontsize=14)
         axes[0].set_xlabel("Coverage Rate", fontsize=12)
         axes[0].set_ylabel("Count (Trials)", fontsize=12)
         
         # Add summary stats on plot
         mean_qr = df[df['method']=='Competitor (Raw QR)']['coverage'].mean()
         mean_cqr = df[df['method']=='Conformal Prediction (CQR)']['coverage'].mean()
-        axes[0].text(0.7, 0.9, f"Raw QR Mean: {mean_qr:.3f}\nCQR Mean: {mean_cqr:.3f}", 
+        axes[0].text(0.7, 0.7, f"Raw QR Mean: {mean_qr:.3f}\nCQR Mean: {mean_cqr:.3f}", 
                      transform=axes[0].transAxes, bbox=dict(facecolor='white', alpha=0.8))
 
         # --- Right Panel: Width Boxplot ---
         sns.boxplot(data=df, x='method', y='avg_width', palette=['#e74c3c', '#2ecc71'], ax=axes[1])
-        axes[1].set_title("Efficiency: Average Interval Width", fontsize=14, fontweight='bold')
+        axes[1].set_title("Efficiency: Average Interval Width", fontsize=14)
         axes[1].set_ylabel("Interval Width (Units)", fontsize=12)
         axes[1].set_xlabel("")
         
-        plt.suptitle(f"Finite-Sample Performance (N_cal={self.n_cal}, {self.n_trials} Trials)", fontsize=16, fontweight='bold')
+        plt.suptitle(f"Finite-Sample Performance (N_cal={self.n_cal}, {self.n_trials} Trials)", fontsize=16)
         plt.tight_layout()
         
         save_path = os.path.join(self.save_dir, 'aggregate_results.png')

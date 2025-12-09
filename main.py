@@ -6,7 +6,7 @@ from modules.model_comparison import UncertaintyExperiment
 from modules.presentation import presentation_experiments
 from modules.california_housing import CaliforniaHousing
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 # presentation_experiments()
 
