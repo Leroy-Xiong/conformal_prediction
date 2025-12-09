@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  8 DEC 2025 21:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  9 DEC 2025 11:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -307,48 +307,35 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{/import/home4/zxiongal/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}] [2] [3] [4]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 221.
- (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Underfull \vbox (badness 1158) has occurred while \output is active []
+{/import/home4/zxiongal/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+Underfull \vbox (badness 2617) has occurred while \output is active []
 
- [5] [6]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 307.
- (/import/home4/zxiongal/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 355--357
-[]\OT1/ptm/m/n/10 Install the Mi-crosoft Save as PDF Of-fice 2007 Add-in from []$\OT1/pcr/m/n/10 http :
+ [2] [3] [4]
+Underfull \hbox (badness 2409) in paragraph at lines 180--181
+ []\OT1/ptm/b/n/10 Conditional Cov-er-age and Mon-drian Con-for-mal Pre-dic-tion.[] \OT1/ptm/m/n/10 Stan-dard SCP guar-an-tees
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 355--357
-\OT1/pcr/m/n/10 / / www . microsoft . com / downloads / details . aspx ? displaylang =
- []
-
-[7] (./report.bbl [8]) [9] (./report.aux)
+[5] (./report.bbl [6]) [7] (./report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: CA0D885FC0A126750A2B8F91DB7E157D;2621.
+(rerunfilecheck)             Checksum: 05E2EF99FCDE014D100FF52ABEED2D45;2147.
  ) 
 Here is how much of TeX's memory you used:
- 10623 strings out of 467538
- 161138 string characters out of 5413300
- 588169 words of memory out of 5000000
- 39315 multiletter control sequences out of 15000+600000
- 652756 words of font info for 88 fonts, out of 8000000 for 9000
+ 10501 strings out of 467538
+ 159336 string characters out of 5413300
+ 588011 words of memory out of 5000000
+ 39223 multiletter control sequences out of 15000+600000
+ 642302 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,90p,1104b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (9 pages, 201947 bytes).
+ 75i,8n,90p,1104b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (7 pages, 184635 bytes).
 PDF statistics:
- 319 PDF objects out of 1000 (max. 8388607)
- 277 compressed objects within 3 object streams
- 76 named destinations out of 1000 (max. 500000)
- 129 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 281 PDF objects out of 1000 (max. 8388607)
+ 243 compressed objects within 3 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 
