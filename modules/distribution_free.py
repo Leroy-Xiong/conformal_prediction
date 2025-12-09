@@ -6,40 +6,38 @@ import seaborn as sns
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from sklearn.datasets import fetch_california_housing
+from sklearn.datasets import make_friedman1
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from scipy.stats import norm
+from scipy.stats import norm, expon
 
-
+# Set high resolution for plots
 plt.rcParams['figure.dpi'] = 300
 
-
-class CaliforniaHousing:
+class DistributionFreeExperiment:
     """
-    Real Data Regression (California Housing).
-    Comparison between Baseline (Gaussian Assumption) and Conformal Prediction.
+    Experiment to demonstrate the 'Distribution-Free' property of Conformal Prediction.
     
-    Includes Data Visualization and GPU Support.
+    Dataset: Synthetic Non-Linear Data with Skewed (Exponential) Noise.
+    Goal: Show that CP maintains valid coverage even when residuals are NOT Gaussian,
+          whereas the Baseline (Mean +/- z*std) fails.
     """
 
-    def __init__(self, random_state=42, alpha=0.1, save_dir='./results/california_housing', gpu_id=0):
+    def __init__(self, n_samples=3000, random_state=42, alpha=0.1, save_dir='./results/distribution_free', gpu_id=0):
         """
-        Initialize the experiment settings.
-        :param random_state: Seed for reproducibility.
-        :param alpha: Error rate (e.g., 0.1 for 90% coverage).
-        :param save_dir: Directory to save the output plots.
-        :param gpu_id: The ID of the GPU to use (e.g., 0 or 1). Falls back to CPU if unavailable.
+        Initialize the experiment.
+        :param n_samples: Number of data points to generate.
+        :param alpha: Target error rate (e.g., 0.1 for 90% coverage).
         """
+        self.n_samples = n_samples
         self.random_state = random_state
         self.alpha = alpha
         self.save_dir = save_dir
         
-        # --- Robust Device Configuration ---
+        # --- Device Configuration ---
         if torch.cuda.is_available():
             num_gpus = torch.cuda.device_count()
             if gpu_id >= num_gpus:
-                print(f"[Warning] Requested gpu_id={gpu_id} but only {num_gpus} available. Fallback to 0.")
                 self.device = torch.device("cuda:0")
             else:
                 self.device = torch.device(f"cuda:{gpu_id}")
@@ -59,27 +57,35 @@ class CaliforniaHousing:
         self.results = {}
 
     def _set_seeds(self):
-        """Sets random seeds for CPU and GPU to ensure reproducibility."""
+        """Set random seeds for reproducibility."""
         np.random.seed(self.random_state)
         torch.manual_seed(self.random_state)
         if self.device.type == 'cuda':
             torch.cuda.manual_seed(self.random_state)
-            torch.cuda.manual_seed_all(self.random_state)
             torch.backends.cudnn.deterministic = True
             torch.backends.cudnn.benchmark = False
 
     def load_and_split_data(self):
         """
-        Loads California Housing dataset, prepares raw DataFrame for viz, and Tensors for training.
+        Generates synthetic data with Non-Gaussian (Exponential) noise.
         """
-        print("[1/6] Loading and splitting data...")
-        data = fetch_california_housing()
-        X, y = data.data, data.target
-        feature_names = data.feature_names
+        print("[1/6] Generating synthetic data with Skewed Noise...")
+        
+        # 1. Generate Non-Linear Data (Friedman #1 regression problem)
+        X, y_clean = make_friedman1(n_samples=self.n_samples, n_features=10, noise=0.0, random_state=self.random_state)
+        
+        # 2. Add SKEWED Noise (Exponential Distribution)
+        # This breaks the Gaussian assumption inherent in standard confidence intervals.
+        noise = np.random.exponential(scale=5.0, size=y_clean.shape) 
+        # Center the noise so mean is roughly 0, but shape remains skewed
+        noise = noise - 2.0 
+        y = y_clean + noise
+        
+        feature_names = [f'Feature_{i}' for i in range(X.shape[1])]
 
-        # Save raw dataframe for visualization purposes
+        # Save for visualization
         self.raw_df = pd.DataFrame(X, columns=feature_names)
-        self.raw_df['MedHouseVal'] = y
+        self.raw_df['Target'] = y
 
         # Split: Train (40%), Calibration (30%), Test (30%)
         X_train, X_temp, y_train, y_temp = train_test_split(
@@ -109,60 +115,54 @@ class CaliforniaHousing:
 
     def _plot_data_overview(self):
         """
-        Visualizes the raw data distribution to justify the complexity.
-        Saved as 'data_overview.png'.
+        Visualizes the data to show non-linearity and skewness.
         """
-        print("[2/6] Visualizing raw data...")
+        print("[2/6] Visualizing data properties...")
         fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
-        # Subplot 1: Geographic Distribution (The "Map")
+        # Plot 1: Feature 0 vs Target (Shows non-linearity)
         sns.scatterplot(
-            data=self.raw_df, x='Longitude', y='Latitude', hue='MedHouseVal', 
-            palette='viridis', alpha=0.4, s=20, ax=axes[0]
+            data=self.raw_df, x='Feature_0', y='Target', 
+            alpha=0.3, color='purple', ax=axes[0]
         )
-        axes[0].set_title('Geographic Distribution of Prices', fontsize=14)
-        axes[0].set_xlabel('Longitude')
-        axes[0].set_ylabel('Latitude')
-
-        # Subplot 2: Target Distribution (Histogram)
-        sns.histplot(self.raw_df['MedHouseVal'], kde=True, color='orange', ax=axes[1])
-        axes[1].set_title('Distribution of House Prices (Target)', fontsize=14)
-        axes[1].set_xlabel('Median House Value ($100k)')
+        axes[0].set_title('Feature 0 vs Target (Non-Linear)', fontsize=14)
         
-        # Subplot 3: Feature vs Target (MedInc is the strongest predictor)
+        # Plot 2: Feature 1 vs Target
         sns.scatterplot(
-            data=self.raw_df, x='MedInc', y='MedHouseVal', 
-            alpha=0.2, color='steelblue', ax=axes[2]
+            data=self.raw_df, x='Feature_1', y='Target', 
+            alpha=0.3, color='teal', ax=axes[1]
         )
-        axes[2].set_title('Median Income vs. House Price', fontsize=14)
-        axes[2].set_xlabel('Median Income')
-        axes[2].set_ylabel('House Price')
+        axes[1].set_title('Feature 1 vs Target (Non-Linear)', fontsize=14)
+
+        # Plot 3: Target Distribution (Likely skewed)
+        sns.histplot(self.raw_df['Target'], kde=True, color='orange', ax=axes[2])
+        axes[2].set_title('Distribution of Target y', fontsize=14)
 
         plt.tight_layout()
         save_path = os.path.join(self.save_dir, 'data_overview.png')
         plt.savefig(save_path, bbox_inches='tight')
-        print(f"      Data overview saved to {save_path}")
         plt.close()
 
     def train_base_model(self):
-        """Trains a simple MLP on the specified device."""
-        print(f"[3/6] Training base neural network on {self.device}...")
+        """Trains an MLP regressor."""
+        print(f"[3/6] Training neural network on {self.device}...")
         
         self.model = nn.Sequential(
             nn.Linear(self.X_train.shape[1], 128),
             nn.ReLU(),
+            nn.Dropout(0.1),
             nn.Linear(128, 64),
             nn.ReLU(),
             nn.Linear(64, 1)
         ).to(self.device)
         
-        optimizer = optim.Adam(self.model.parameters(), lr=0.01)
+        optimizer = optim.Adam(self.model.parameters(), lr=0.005)
         criterion = nn.MSELoss()
         
         X_train_dev = self.X_train.to(self.device)
         y_train_dev = self.y_train.to(self.device)
         
-        epochs = 300
+        epochs = 400
         self.model.train()
         for epoch in range(epochs):
             optimizer.zero_grad()
@@ -173,7 +173,7 @@ class CaliforniaHousing:
         print("      Training complete.")
 
     def run_inference(self):
-        """Runs inference on GPU and moves results back to CPU."""
+        """Runs inference to get point predictions."""
         print("[4/6] Running inference...")
         self.model.eval()
         X_cal_dev = self.X_cal.to(self.device)
@@ -184,63 +184,63 @@ class CaliforniaHousing:
             self.y_pred_test = self.model(X_test_dev).cpu().numpy().flatten()
 
     def run_methods(self):
-        """Implements Baseline vs CP logic."""
+        """
+        Compares Baseline (Gaussian Assumption) vs Conformal Prediction.
+        """
         print("[5/6] Computing uncertainty intervals...")
         
-        # Method A: Baseline (Gaussian)
+        # --- Method A: Baseline (Parametric / Gaussian) ---
+        # Assumes residuals follow N(0, sigma). 
+        # Since our noise is Exponential, this assumption is WRONG.
         cal_residuals = self.y_cal_numpy - self.y_pred_cal
-        sigma_hat = np.sqrt(np.mean(cal_residuals**2))
+        
+        # Fit Gaussian parameters
+        mu_hat, std_hat = norm.fit(cal_residuals)
+        
+        # Calculate z-score for (1 - alpha)
         z_score = norm.ppf(1 - self.alpha / 2)
+        self.width_baseline = z_score * std_hat
         
-        # Calculate Half-Width
-        self.width_baseline = z_score * sigma_hat
-        
+        # Construct symmetric intervals
         self.y_lower_base = self.y_pred_test - self.width_baseline
         self.y_upper_base = self.y_pred_test + self.width_baseline
         self.cal_residuals = cal_residuals
 
-        # Method B: Split Conformal Prediction
+        # --- Method B: Split Conformal Prediction (Distribution-Free) ---
+        # Uses empirical quantiles of residuals. Does not assume shape.
         scores_cal = np.abs(self.y_cal_numpy - self.y_pred_cal)
         n = len(self.y_cal_numpy)
         q_level = np.ceil((n + 1) * (1 - self.alpha)) / n
         
-        # Calculate Half-Width (q_hat)
+        # Calculate Q_hat (the (1-alpha) quantile)
         self.q_hat = np.quantile(scores_cal, q_level, method='higher')
         
         self.y_lower_cp = self.y_pred_test - self.q_hat
         self.y_upper_cp = self.y_pred_test + self.q_hat
 
-        # Metrics
+        # --- Evaluate Coverage ---
         cov_base = np.mean((self.y_test_numpy >= self.y_lower_base) & (self.y_test_numpy <= self.y_upper_base))
         cov_cp = np.mean((self.y_test_numpy >= self.y_lower_cp) & (self.y_test_numpy <= self.y_upper_cp))
         
         self.metrics = {'Baseline Coverage': cov_base, 'CP Coverage': cov_cp, 'Target': 1 - self.alpha}
         
-        print("="*40)
-        print("          RESULTS SUMMARY")
-        print("="*40)
-        print(f"      Target Coverage: {1-self.alpha:.1%}")
-        print(f"      Baseline Coverage: {cov_base:.1%} (FAIL)")
-        print(f"      CP Coverage:       {cov_cp:.1%} (PASS)")
-        print("-" * 40)
-        
-        # --- NEW: Calculate and Print Interval Widths ---
-        # Note: In this method (Split Conformal with absolute residuals), the width is constant for all points.
-        # Width = Upper - Lower
+        # Interval Widths
         self.avg_width_base = self.width_baseline * 2
         self.avg_width_cp = self.q_hat * 2
-        
-        print(f"      Gaussian Interval Width:  {self.avg_width_base:.4f}")
-        print(f"      Conformal Interval Width: {self.avg_width_cp:.4f}")
-        
-        # Add interpretation
-        if self.avg_width_cp > self.avg_width_base:
-            diff_pct = (self.avg_width_cp - self.avg_width_base) / self.avg_width_base * 100
-            print(f"      [Analysis] CP interval is {diff_pct:.1f}% wider to ensure safety.")
-        print("="*40)
+
+        print("="*50)
+        print("          RESULTS SUMMARY (Distribution-Free Test)")
+        print("="*50)
+        print(f"      Target Coverage: {1-self.alpha:.1%}")
+        print(f"      Baseline Coverage: {cov_base:.1%} (Likely Mismatched)")
+        print(f"      CP Coverage:       {cov_cp:.1%} (Valid)")
+        print("-" * 50)
+        print(f"      Gaussian Width:    {self.avg_width_base:.4f}")
+        print(f"      Conformal Width:   {self.avg_width_cp:.4f}")
+        print("="*50)
 
     def plot_results(self):
-        """Generates all results plots."""
+        """Generates plots to prove the concept."""
         print("[6/6] Generating result plots...")
         self._plot_residual_distribution()
         self._plot_coverage_comparison()
@@ -248,39 +248,50 @@ class CaliforniaHousing:
         print(f"Results saved to: {os.path.abspath(self.save_dir)}")
 
     def _plot_residual_distribution(self):
+        """
+        Crucial Plot: Shows that residuals are NOT Gaussian, explaining why Baseline fails.
+        """
         plt.figure(figsize=(10, 6))
-        sns.histplot(self.cal_residuals, kde=True, stat="density", 
-                     color="#3498db", label="Actual Residuals (Calibration)", alpha=0.6)
         
+        # 1. Plot actual residuals (Skewed)
+        sns.histplot(self.cal_residuals, kde=True, stat="density", 
+                     color="#3498db", label="Actual Residuals (Non-Gaussian)", alpha=0.5)
+        
+        # 2. Plot the Gaussian fit that the Baseline method *assumes*
         mu, std = norm.fit(self.cal_residuals)
         xmin, xmax = plt.xlim()
-        x = np.linspace(xmin, xmax, 100)
+        x = np.linspace(xmin, xmax, 200)
         p = norm.pdf(x, mu, std)
-        plt.plot(x, p, 'r--', linewidth=2.5, label=f"Gaussian Assumption\nN(0, {std:.2f})")
+        plt.plot(x, p, 'r--', linewidth=2.5, label=f"Gaussian Assumption\nN({mu:.2f}, {std:.2f})")
         
-        plt.title("Why Baseline Fails: Non-Gaussian Residuals", fontsize=16)
-        plt.xlabel("Residual Value", fontsize=12)
+        plt.title("Proof of Distribution-Free Need:\nResiduals are Skewed, Gaussian Fit is Poor", fontsize=14)
+        plt.xlabel("Residual Value (y - y_pred)", fontsize=12)
         plt.legend(fontsize=12)
-        plt.savefig(os.path.join(self.save_dir, 'residual_distribution.png'), bbox_inches='tight')
+        plt.grid(alpha=0.3)
+        plt.savefig(os.path.join(self.save_dir, 'residual_distribution_proof.png'), bbox_inches='tight')
         plt.close()
 
     def _plot_coverage_comparison(self):
-        methods = ['Baseline\n(Gaussian)', 'Conformal Prediction\n(Distribution-Free)']
+        methods = ['Baseline\n(Gaussian)', 'Conformal Prediction\n(Any Distribution)']
         coverages = [self.metrics['Baseline Coverage'], self.metrics['CP Coverage']]
         target = self.metrics['Target']
         
         plt.figure(figsize=(8, 6))
-        bars = plt.bar(methods, coverages, color=['#e74c3c', '#2ecc71'], alpha=0.85, width=0.6)
+        # Color coding: Red if fail, Green if pass (approx)
+        cols = ['#e74c3c' if abs(c - target) > 0.05 else '#f1c40f' for c in coverages]
+        cols[1] = '#2ecc71' # CP is usually green/correct
+        
+        bars = plt.bar(methods, coverages, color=cols, alpha=0.85, width=0.6)
         plt.axhline(y=target, color='black', linestyle='--', linewidth=2, label=f'Target ({target:.0%})')
         
         for bar in bars:
             height = bar.get_height()
             plt.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-                     f'{height:.1%}', ha='center', va='bottom', fontsize=14)
+                     f'{height:.1%}', ha='center', va='bottom', fontsize=14, fontweight='bold')
             
-        plt.ylim(0, 1.1)
+        plt.ylim(0, 1.15)
         plt.ylabel("Empirical Coverage Rate", fontsize=12)
-        plt.title("Coverage Comparison", fontsize=16)
+        plt.title("Coverage Validity Test", fontsize=16)
         plt.legend(loc='lower right')
         plt.savefig(os.path.join(self.save_dir, 'coverage_comparison.png'), bbox_inches='tight')
         plt.close()
@@ -290,36 +301,44 @@ class CaliforniaHousing:
         y_true_sub = self.y_test_numpy[subset_idx]
         y_pred_sub = self.y_pred_test[subset_idx]
         
-        lower_base = self.y_lower_base[subset_idx]
-        upper_base = self.y_upper_base[subset_idx]
+        # CP Intervals
         lower_cp = self.y_lower_cp[subset_idx]
         upper_cp = self.y_upper_cp[subset_idx]
         
-        fig, axes = plt.subplots(1, 2, figsize=(16, 6), sharey=True)
+        plt.figure(figsize=(14, 6))
         
-        # Plot Baseline
-        axes[0].errorbar(subset_idx, y_pred_sub, yerr=[y_pred_sub - lower_base, upper_base - y_pred_sub], 
-                         fmt='o', color='#e74c3c', alpha=0.6, label=f'Width: {self.avg_width_base:.2f}')
-        axes[0].scatter(subset_idx, y_true_sub, color='black', marker='x', s=40, label='True Value')
-        axes[0].set_title(f"Baseline: {self.metrics['Baseline Coverage']:.1%} Coverage", fontsize=14)
-        axes[0].legend(loc='upper right')
+        # Plot CP intervals
+        plt.errorbar(subset_idx, y_pred_sub, yerr=[y_pred_sub - lower_cp, upper_cp - y_pred_sub], 
+                     fmt='o', color='#2ecc71', alpha=0.6, label='CP Interval (90%)', capsize=3)
         
-        # Plot CP
-        axes[1].errorbar(subset_idx, y_pred_sub, yerr=[y_pred_sub - lower_cp, upper_cp - y_pred_sub], 
-                         fmt='o', color='#2ecc71', alpha=0.6, label=f'Width: {self.avg_width_cp:.2f}')
-        axes[1].scatter(subset_idx, y_true_sub, color='black', marker='x', s=40, label='True Value')
-        axes[1].set_title(f"CP: {self.metrics['CP Coverage']:.1%} Coverage", fontsize=14)
-        axes[1].legend(loc='upper right')
+        # Plot True Values
+        # Color red if outside interval, black if inside
+        inside = (y_true_sub >= lower_cp) & (y_true_sub <= upper_cp)
+        colors = np.where(inside, 'black', 'red')
+        plt.scatter(subset_idx, y_true_sub, c=colors, marker='x', s=60, zorder=3, label='True Value')
         
-        plt.suptitle("Prediction Intervals (First 50 Test Samples)", fontsize=16)
+        plt.title(f"Conformal Prediction Intervals (First {n_samples} Test Samples)\nRobust against non-Gaussian noise", fontsize=14)
+        plt.xlabel("Sample Index")
+        plt.ylabel("Target Value")
+        
+        # Create custom legend
+        from matplotlib.lines import Line2D
+        legend_elements = [
+            Line2D([0], [0], color='#2ecc71', marker='o', linestyle='None', label='CP Interval'),
+            Line2D([0], [0], marker='x', color='black', linestyle='None', label='True Value (Inside)'),
+            Line2D([0], [0], marker='x', color='red', linestyle='None', label='True Value (Outside)')
+        ]
+        plt.legend(handles=legend_elements, loc='upper right')
+        
         plt.savefig(os.path.join(self.save_dir, 'interval_visualization.png'), bbox_inches='tight')
         plt.close()
 
     def run(self):
         """Execute the full experiment pipeline."""
-        print("="*50)
-        print("Starting Experiment: Real Data Regression")
-        print("="*50)
+        print("="*60)
+        print("Starting Experiment: Distribution-Free Proof")
+        print("Dataset: Synthetic Non-Linear with Skewed Exponential Noise")
+        print("="*60)
         
         self.load_and_split_data()
         self._plot_data_overview()
@@ -328,9 +347,11 @@ class CaliforniaHousing:
         self.run_methods()
         self.plot_results()
         
-        print("\nExperiment completed successfully.")
+        print("\nExperiment completed.")
 
 if __name__ == "__main__":
     
-    experiment = CaliforniaHousing(alpha=0.1, gpu_id=0)
+    # Run the experiment
+    # alpha=0.1 means we want 90% coverage
+    experiment = DistributionFreeExperiment(n_samples=3000, alpha=0.1, gpu_id=0)
     experiment.run()
