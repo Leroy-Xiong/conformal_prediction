@@ -7,8 +7,6 @@ from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 
-
-
 plt.rcParams['figure.dpi'] = 300
 
 class FiniteSampleExperiment:
