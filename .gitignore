@@ -4,3 +4,11 @@ __pycache__/
 *.psd
 /results/
 /data/
+
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.out
+*.fdb_latexmk
