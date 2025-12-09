@@ -50,6 +50,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Distribution-Free}{7}{subsection.3.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \textbf  {Validation of Distribution-Free Robustness.} \textbf  {(a)} Histogram of the actual residuals (blue) versus the Gaussian fit (red dashed line) assumed by the baseline method. The clear skewness and heavy tail of the actual data violate the normality assumption, leading to a poor fit. \textbf  {(b)} Comparison of empirical coverage rates. The Gaussian baseline (yellow) fails to capture the true distribution's shape, resulting in unpredictable coverage. In contrast, CP (green) achieves near-perfect validity (90.8\%) by relying on the empirical quantiles of the residuals rather than a density estimate. \textbf  {(c)} Visualization of CP intervals for the first 50 test samples. The intervals (green bars) effectively contain the true targets (black crosses) even in the presence of asymmetric noise, with failures (red crosses) occurring at the expected rate of $\alpha =10\%$.}}{7}{figure.2}\protected@file@percent }
 \newlabel{fig:dist_free_experiment}{{2}{7}{\textbf {Validation of Distribution-Free Robustness.} \textbf {(a)} Histogram of the actual residuals (blue) versus the Gaussian fit (red dashed line) assumed by the baseline method. The clear skewness and heavy tail of the actual data violate the normality assumption, leading to a poor fit. \textbf {(b)} Comparison of empirical coverage rates. The Gaussian baseline (yellow) fails to capture the true distribution's shape, resulting in unpredictable coverage. In contrast, CP (green) achieves near-perfect validity (90.8\%) by relying on the empirical quantiles of the residuals rather than a density estimate. \textbf {(c)} Visualization of CP intervals for the first 50 test samples. The intervals (green bars) effectively contain the true targets (black crosses) even in the presence of asymmetric noise, with failures (red crosses) occurring at the expected rate of $\alpha =10\%$}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Model-Free}{8}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Evaluation of Model Agnosticism across 7 Architectures.} \textbf  {(a)} Models sorted by predictive error (MSE), ranging from weaker models (KNN, Linear) to strong ensembles (Gradient Boosting). \textbf  {(b)} The average prediction interval width follows the trend of the MSE\spacefactor \@m {}. Stronger models like Gradient Boosting produce significantly sharper intervals (17.7 units) compared to the Linear baseline (37.5 units). \textbf  {(c)} Empirical coverage rates for all models. Despite the vast differences in underlying mathematical principles and accuracy, CP ensures that every model approximates the 90\% target (dashed line), validating the model-free property.}}{8}{figure.3}\protected@file@percent }
+\newlabel{fig:model_free_results}{{3}{8}{\textbf {Evaluation of Model Agnosticism across 7 Architectures.} \textbf {(a)} Models sorted by predictive error (MSE), ranging from weaker models (KNN, Linear) to strong ensembles (Gradient Boosting). \textbf {(b)} The average prediction interval width follows the trend of the MSE\@. Stronger models like Gradient Boosting produce significantly sharper intervals (17.7 units) compared to the Linear baseline (37.5 units). \textbf {(c)} Empirical coverage rates for all models. Despite the vast differences in underlying mathematical principles and accuracy, CP ensures that every model approximates the 90\% target (dashed line), validating the model-free property}{figure.3}{}}
 \bibstyle{plainnat}
 \bibdata{references}
 \bibcite{berger1985statistical}{{1}{1985}{{Berger}}{{}}}
@@ -62,9 +65,8 @@
 \bibcite{lakshminarayanan2017simple}{{8}{2017}{{Lakshminarayanan et~al.}}{{Lakshminarayanan, Pritzel, and Blundell}}}
 \bibcite{lei2018distribution}{{9}{2018}{{Lei et~al.}}{{Lei, G'Sell, Rinaldo, Tibshirani, and Wasserman}}}
 \bibcite{lindemann2023safe}{{10}{2023}{{Lindemann et~al.}}{{Lindemann, Cleaveland, Shim, and Pappas}}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Model-Free}{8}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Comparative Analysis}{8}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{8}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Comparative Analysis}{9}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}\protected@file@percent }
 \bibcite{lipman2022flow}{{11}{2022}{{Lipman et~al.}}{{Lipman, Chen, Ben-Hamu, Nickel, and Le}}}
 \bibcite{murphy2012machine}{{12}{2012}{{Murphy}}{{}}}
 \bibcite{olsson2022estimating}{{13}{2022}{{Olsson et~al.}}{{Olsson, Kartasalo, Mulliqi, Capuccini, Ruusuvuori, Samaratunga, Delahunt, Lindskog, Janssen, Blilie, et~al.}}}
@@ -77,4 +79,4 @@
 \bibcite{tibshirani2019conformal}{{20}{2019}{{Tibshirani et~al.}}{{Tibshirani, Barber, Candes, and Ramdas}}}
 \bibcite{vovk2005algorithmic}{{21}{2005}{{Vovk et~al.}}{{Vovk, Gammerman, and Shafer}}}
 \bibcite{wasserman2004all}{{22}{2004}{{Wasserman}}{{}}}
-\gdef \@abspage@last{9}
+\gdef \@abspage@last{10}

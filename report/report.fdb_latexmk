@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex report"] 1765268354.83311 "report.aux" "report.bbl" "report" 1765268665.62767 0
+["bibtex report"] 1765276864.17879 "report.aux" "report.bbl" "report" 1765276871.96967 0
   "./references.bib" 1765200690.19218 7640 6fd57f6c43525ceeeaacd95aca077183 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "report.aux" 1765268665.28934 9668 98df9de99860a1df6b1f6b07e88c934c "pdflatex"
+  "report.aux" 1765276871.19603 11192 ba41ac2447c85ed0fef68d6cb474e315 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1765268663.39263 "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" "report.pdf" "report" 1765268665.62881 0
-  "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" 1765268656.52455 30645 16c556e1b68d2e165ff5aa052f872680 ""
+["pdflatex"] 1765276864.87327 "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" "report.pdf" "report" 1765276871.9702 0
+  "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" 1765276856.07019 33503 8d4bbd10f6aa343ccf10f9b33c9f5377 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/helvetic/phvb.tfm" 1136768653 2300 14616918391efa49ac8b481a75fbdc1a ""
@@ -100,10 +100,11 @@
   "/import/home4/zxiongal/texlive/2025/texmf.cnf" 1764842972.25268 496 01ab80fa0036a81d2df86fb0ac70c709 ""
   "figures/distribution_free.jpg" 1765267496.2157 650045 2c487519af7e33cb81e716f04ce36407 ""
   "figures/finite_sample_coverage.jpg" 1765264746.22643 941984 6270aafe3fec507f738ced9a10d61bab ""
+  "figures/model_free.jpg" 1765272081.29079 443816 734c5f406bc746c8099265055ad60e26 ""
   "nips15submit_e.sty" 1764845734.01196 8803 4be3f7745104c21ca95f608f0c9c0910 ""
-  "report.aux" 1765268665.28934 9668 98df9de99860a1df6b1f6b07e88c934c "pdflatex"
-  "report.bbl" 1765268355.82297 7180 2345bafcbe1b2d6ea15e97d0d9dfb9bf "bibtex report"
-  "report.out" 1765268665.30634 1710 9da15f0460e1e7ecccd4108c71d10c3c "pdflatex"
+  "report.aux" 1765276871.19603 11192 ba41ac2447c85ed0fef68d6cb474e315 "pdflatex"
+  "report.bbl" 1765276865.13009 7180 2345bafcbe1b2d6ea15e97d0d9dfb9bf "bibtex report"
+  "report.out" 1765276871.21603 1710 9da15f0460e1e7ecccd4108c71d10c3c "pdflatex"
   (generated)
   "report.aux"
   "report.log"
