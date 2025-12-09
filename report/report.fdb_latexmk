@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex report"] 1765252105.60865 "report.aux" "report.bbl" "report" 1765252548.63627 0
+["bibtex report"] 1765252679.89253 "report.aux" "report.bbl" "report" 1765252690.88057 0
   "./references.bib" 1765200690.19218 7640 6fd57f6c43525ceeeaacd95aca077183 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "report.aux" 1765252547.80397 5983 3b935ce9d11c4f6c113ee093096e6974 "pdflatex"
+  "report.aux" 1765252689.29213 5952 7854722b737c23ce69a7454e31d74b66 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1765252539.89909 "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" "report.pdf" "report" 1765252548.63676 0
-  "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" 1765252539.89109 26180 7cd0f44ae9e0ed89506e2d248d3e5fad ""
+["pdflatex"] 1765252680.23345 "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" "report.pdf" "report" 1765252690.88105 0
+  "/home/zxiongal/courses/math5472/conformal_prediction/report/report.tex" 1765252671.59027 26153 38826bb5a00b234263e8e6d9a59d77fc ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/import/home4/zxiongal/texlive/2025/texmf-dist/fonts/tfm/adobe/helvetic/phvb.tfm" 1136768653 2300 14616918391efa49ac8b481a75fbdc1a ""
@@ -93,9 +93,9 @@
   "/import/home4/zxiongal/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1764843278 3635935 fa6268260c95fcfb6a2c00682d30951c ""
   "/import/home4/zxiongal/texlive/2025/texmf.cnf" 1764842972.25268 496 01ab80fa0036a81d2df86fb0ac70c709 ""
   "nips15submit_e.sty" 1764845734.01196 8803 4be3f7745104c21ca95f608f0c9c0910 ""
-  "report.aux" 1765252547.80397 5983 3b935ce9d11c4f6c113ee093096e6974 "pdflatex"
-  "report.bbl" 1765252106.58053 7180 2345bafcbe1b2d6ea15e97d0d9dfb9bf "bibtex report"
-  "report.out" 1765252547.84497 2147 05e2ef99fcde014d100ff52abeed2d45 "pdflatex"
+  "report.aux" 1765252689.29213 5952 7854722b737c23ce69a7454e31d74b66 "pdflatex"
+  "report.bbl" 1765252680.76367 7180 2345bafcbe1b2d6ea15e97d0d9dfb9bf "bibtex report"
+  "report.out" 1765252689.33513 2147 05e2ef99fcde014d100ff52abeed2d45 "pdflatex"
   (generated)
   "report.aux"
   "report.log"

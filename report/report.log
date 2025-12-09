@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  9 DEC 2025 11:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.4)  9 DEC 2025 11:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -332,10 +332,10 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,8n,90p,1104b,554s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></import/home4/zxiongal/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 184635 bytes).
+Output written on report.pdf (7 pages, 184535 bytes).
 PDF statistics:
- 281 PDF objects out of 1000 (max. 8388607)
- 243 compressed objects within 3 object streams
+ 279 PDF objects out of 1000 (max. 8388607)
+ 241 compressed objects within 3 object streams
  68 named destinations out of 1000 (max. 500000)
  97 words of extra memory for PDF output out of 10000 (max. 10000000)
 
