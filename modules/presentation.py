@@ -212,7 +212,8 @@ def visualize_test_results(all_images, true_labels, point_predictions, predictio
         axes[row, col].axis('off')
     
     plt.tight_layout()
-    plt.savefig('./output/presentation/conformal_prediction_results.png', dpi=300, bbox_inches='tight')
+    os.makedirs('./results/presentation', exist_ok=True)
+    plt.savefig('./results/presentation/conformal_prediction_results.png', dpi=300, bbox_inches='tight')
     plt.show()
 
 def plot_statistics(prediction_sets, true_labels, point_predictions, all_probabilities, alpha):
@@ -306,7 +307,8 @@ def plot_statistics(prediction_sets, true_labels, point_predictions, all_probabi
     ax4.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('./output/presentation/conformal_prediction_statistics.png', dpi=300, bbox_inches='tight')
+    os.makedirs('./results/presentation', exist_ok=True)
+    plt.savefig('./results/presentation/conformal_prediction_statistics.png', dpi=300, bbox_inches='tight')
     plt.show()
 
 def presentation_experiments():
