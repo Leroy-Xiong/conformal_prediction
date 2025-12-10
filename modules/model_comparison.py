@@ -16,7 +16,7 @@ import torch.optim as optim
 sns.set_theme(style="whitegrid")
 plt.rcParams.update({'figure.dpi': 150})
 
-class UncertaintyExperiment:
+class ModelComparison:
     """
     A class to encapsulate the experiment comparing different uncertainty estimation methods.
     """
@@ -251,7 +251,7 @@ class UncertaintyExperiment:
         
         self._store_result("Conformal (XGBoost)", y_pred, lower, upper)
         
-    def run_mc_dropout(self, n_samples=100, dropout_rate=0.1, epochs=200):
+    def run_mc_dropout(self, n_samples=100, dropout_rate=0.7, epochs=200):
         """
         Method 6: Monte Carlo Dropout (GPU Enabled).
         Uses a Neural Network with Dropout layers active during inference.
@@ -269,10 +269,10 @@ class UncertaintyExperiment:
                 self.network = nn.Sequential(
                     nn.Linear(input_dim, 128),
                     nn.ReLU(),
-                    nn.Dropout(p=dropout_rate), # Active dropout
+                    nn.Dropout(p=dropout_rate),  # Active dropout
                     nn.Linear(128, 64),
                     nn.ReLU(),
-                    nn.Dropout(p=dropout_rate), # Active dropout
+                    nn.Dropout(p=dropout_rate),  # Active dropout
                     nn.Linear(64, 1)
                 )
 
@@ -296,7 +296,7 @@ class UncertaintyExperiment:
         criterion = nn.MSELoss()
         
         # 5. Training Loop
-        model.train() # Enable training mode (Dropout is ON)
+        model.train()  # Enable training mode (Dropout is ON)
         for epoch in range(epochs):
             optimizer.zero_grad()
             outputs = model(X_train_t)
@@ -327,16 +327,33 @@ class UncertaintyExperiment:
         # Stack predictions: Shape (n_samples, n_test_points)
         mc_predictions = np.vstack(mc_predictions)
         
-        # 7. Calculate Statistics (Mean and Std Dev)
+        # 7. Calculate Mean Prediction
         y_pred = np.mean(mc_predictions, axis=0)
-        y_std = np.std(mc_predictions, axis=0)
         
-        # 8. Calculate Confidence Intervals
-        from scipy.stats import norm
-        z_score = norm.ppf(1 - self.alpha / 2)
+        # 8. Calculate Nonparametric Confidence Intervals
+        # For each test point, use empirical percentiles from MC samples
+        lower = np.zeros_like(y_pred)
+        upper = np.zeros_like(y_pred)
         
-        lower = y_pred - z_score * y_std
-        upper = y_pred + z_score * y_std
+        # Calculate percentile-based bounds for each test point
+        for i in range(len(y_pred)):
+            # Get all Monte Carlo samples for this test point
+            point_samples = mc_predictions[:, i]
+            
+            # Sort samples for percentile calculation
+            sorted_samples = np.sort(point_samples)
+            
+            # Calculate lower and upper percentiles
+            lower_idx = int(np.floor(self.alpha/2 * n_samples))
+            upper_idx = int(np.ceil((1 - self.alpha/2) * n_samples))
+            
+            # Handle edge cases for indices
+            lower_idx = max(0, lower_idx)
+            upper_idx = min(n_samples - 1, upper_idx)
+            
+            # Get the empirical percentile values
+            lower[i] = sorted_samples[lower_idx]
+            upper[i] = sorted_samples[upper_idx]
         
         self._store_result("MC Dropout", y_pred, lower, upper)
 
@@ -716,11 +733,6 @@ class UncertaintyExperiment:
         ax.set_xlim(0.5, 1)
         ax.set_ylim(0.5, 1)
         
-        # Add text annotation highlighting conformal prediction
-        ax.text(0.55, 0.95, 'Conformal Prediction:\nTheoretically guaranteed\ncalibration under\nexchangeability',
-                bbox=dict(boxstyle="round,pad=0.5", facecolor="yellow", alpha=0.8),
-                fontsize=10, verticalalignment='top')
-        
         plt.tight_layout()
         save_path = os.path.join(self.save_dir, 'calibration_curves.png')
         plt.savefig(save_path, bbox_inches='tight')
@@ -813,5 +825,5 @@ class UncertaintyExperiment:
 # --- Execution ---
 if __name__ == "__main__":
     # Initialize Experiment
-    exp = UncertaintyExperiment(alpha=0.1) # 90% confidence
+    exp = ModelComparison(alpha=0.1) # 90% confidence
     exp.run_all()
